@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Calcolatrice Semplice</title>
+</head>
+<body>
+    <h1>Calcolatrice</h1>
+
+    <form id="calculatorForm" onsubmit="calcola(); return false;">
+        Primo numero: <input type="text" id="num1" required><br>
+        Secondo numero: <input type="text" id="num2" required><br>
+        Operazione: <input type="text" id="operation" placeholder="+, -, *, /, **" required><br>
+        <button type="submit">Calcola</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        function calcola() {
+            const num1Input = document.getElementById('num1').value;
+            const num2Input = document.getElementById('num2').value;
+            const operation = document.getElementById('operation').value.trim();
+            const resultDiv = document.getElementById('result');
+
+            const num1 = parseFloat(num1Input);
+            const num2 = parseFloat(num2Input);
+
+            if (Number.isNaN(num1) || Number.isNaN(num2)) {
+                resultDiv.textContent = 'Errore: Inserisci due numeri validi.';
+                return;
+            }
+
+            let result;
+
+            try {
+                switch (operation) {
+                    case '+':
+                        result = num1 + num2;
+                        break;
+                    case '-':
+                        result = num1 - num2;
+                        break;
+                    case '*':
+                        result = num1 * num2;
+                        break;
+                    case '/':
+                        if (num2 === 0) {
+                            throw new Error('Divisione per zero non consentita.');
+                        }
+                        result = num1 / num2;
+                        break;
+                    case '**':
+                        result = num1 ** num2;
+                        break;
+                    default:
+                        throw new Error('Operazione non valida.');
+                }
+
+                resultDiv.textContent = 'Risultato: ' + result;
+
+            } catch (error) {
+                resultDiv.textContent = 'Errore: ' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>
